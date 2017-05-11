@@ -1,0 +1,211 @@
+================================================ATM Class============================================================
+// INCREMENTS 1 , 2(SINGLE CLASS AND SINGLE METHODS) 
+class ATM
+{
+protected:
+int atm_number;
+int atm_password;
+char* accd;
+public:
+int getatm(){}               
+char* getatmid(){}
+int getpass(){}
+};
+===============================================================================================================
+===============================================Account Class======================================================
+// INCREMENT 1,2,3,4,5(MULTIPLE CLASS AND MULTIPLE METHODS)
+class Account
+{
+protected:
+    int  password ;
+    char  acc_id[21] ;
+char name[21] ;
+char phone[10] ;
+    float balance ;
+char userid[21] ;
+ ATM *a; //FOR COMPOSITION RELATIONSHIP .  //INCREMENT 3 //ONE TO ONE ASSOCIATION
+public :
+Account(){}
+Account(int p,char aid[],char nm[],char ph[],float bl,char uid[]){}
+virtual char* getid(){}
+virtual void deduct(char[] , float){}
+virtual void credit(char[] , float){}
+virtual void atm_exist(){}
+virtual void details(){}
+~Account(){delete a;} //INCREMENT 5 // COMPOSITION
+};
+===============================================================================================================
+===============================================Savings Class========================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class Savings :virtual public Account //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+public:
+Savings():Account(){}
+char* getid(){}
+Savings(int p,char aid[],char nm[],char ph[],float bl,char uid[]):Account(p,aid,nm,ph,bl,uid){}
+void deduct(char c[],float ded){}	
+void credit(char c[], float add){}
+};
+===============================================================================================================
+==============================================Current Class===========================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class Current :virtual public Account //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+public:
+Current():Account(){}
+char* getid(){}
+Current(int p,char aid[],char nm[],char ph[],float bl,char uid[]):Account(p,aid,nm,ph,bl,uid){}
+void deduct(char c[],float ded){}
+void credit(char c[], float add){}
+void details(){}
+};
+===============================================================================================================
+=================================================Locker Class========================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class Locker : virtual public Savings , virtual public Current {//INCREMENT 7 OVERRIDING AND OVERLOADING.
+protected :
+    int locker_num ;
+char type[21] ;
+float rent ;
+char date[10] ;
+public :
+Locker():Savings(),Current(){}
+int getlocknum(){}
+void create(){}
+void update(){}
+friend int checks(char aid[],Savings &s);
+friend int checkc(char aid[],Current &c);
+};
+===============================================================================================================
+=================================================LOAN class======================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class LOAN : virtual public Savings , virtual public Current //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+protected :
+char loan_id[21] ;
+float rate_interest;
+int num_of_Installments;
+int installments_paid;
+float principle ;
+float amount_paid;
+float fixed_amt;
+char date[10] ;
+public :
+LOAN():Savings(),Current(){}
+virtual char* getlid(){}
+virtual void create(){}
+virtual void details(){}
+virtual int check(char []){}
+virtual int check_marks(float){}
+virtual int check_salary(float){}
+virtual void update(){}
+};
+===============================================================================================================
+=================================================CAR Class==========================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class CAR :virtual public LOAN  //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+protected :
+float salary ;
+public :
+CAR():LOAN(){}
+char* getlid(){}
+void create(){}
+int check_salary(){}
+void update(){}
+void details(){}
+friend int checks(char aid[],Savings &s);
+friend int checkc(char aid[],Current &c);
+};
+===============================================================================================================
+=================================================EDUCATION Class======================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class EDUCATION :virtual public LOAN  //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+protected :
+  float twelth_marks ;
+public :
+EDUCATION():LOAN(){}
+char* getlid(){}
+void create(){}
+int check_marks(float mar){}
+void update(){}
+void details(){}
+friend int checks(char aid[],Savings &s);
+friend int checkc(char aid[],Current &c);
+
+};
+===============================================================================================================
+====================================================DD Class=====================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class DD : virtual public Savings , virtual public Current //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+protected :
+//int dd_num; In Login Class;
+//float amount; In Login Class;
+char date[10] ;
+char from[21] ;
+char to[21] ;
+public :
+DD():Savings(),Current(){}
+void create(){}
+void print(){}
+	
+friend int checks(char aid[],Savings &s);
+friend int checkc(char aid[],Current &c);
+};
+===============================================================================================================
+==================================================ATM_transaction class=======================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class ATM_transaction : public ATM  //INCREMENT 7 OVERRIDING AND OVERLOADING.
+{
+public :
+ATM_transaction():ATM(){}
+ATM_transaction(int atmno,int pin,char acc_id[]):ATM(atmno,pin,acc_id){}
+int check_details(int a_num, int pwd){}
+};
+===============================================================================================================
+==================================================LOGIN Class=======================================================
+// INCREMENT 1,2,3,7(MULTIPLE CLASS AND MULTIPLE METHODS)
+class LOGIN : virtual public Savings , virtual public Current , virtual public ATM_transaction , virtual public LOAN, public Locker , virtual public DD
+{		//INCREMENT 7 OVERRIDING AND OVERLOADING.
+Savings save;
+Current curnt;
+CAR car;
+EDUCATION edu;
+ATM_transaction atm;
+DD dd;
+Locker lock;
+public:
+void assigns(Savings &ss){save=ss;}
+void assignc(Current &cc){curnt=cc;}
+void assigna(ATM_transaction &aa){atm=aa;}
+void cust_screen()
+void clerk_screen()
+};
+===============================================================================================================
+=========================================FRIEND FUNCTION DEFINATION======================================
+===========================================FRIEND FUNCTION 1 DEFINATION =================================
+//INCREMENT 6 FRIEND FUNCTIONS.
+int checks(char aid[],Savings &s)
+{
+Savings ss;
+ss=s;
+if(strcmp(ss.getid(),aid)==0)
+	return 1;
+		else
+		return 0;
+}
+//========================FRIEND FUNCTION 2 DEFINATION ========================
+int checkc(char aid[],Current &c)
+{
+Current cc;
+cc=c;
+if(strcmp(cc.getid(),aid)==0)
+return 1;
+else	
+return 0;
+}
+================================================================================================================
+===============================================================================================================	
+

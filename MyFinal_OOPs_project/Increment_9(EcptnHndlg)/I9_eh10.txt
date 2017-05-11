@@ -1,0 +1,46 @@
+==========================================================================================================================
+==========================================================================================================================
+				//IN EXECUTE CLASS REST ALL;
+				int ch;
+				char name[21];
+				char phone[10];
+				char userid[21];
+				char acc_id[21];
+				int password;
+				float balance;
+				int choice;
+				int atmno;
+				int pin;
+				cin>>ch;
+				switch(ch)
+				{
+					case 1:
+					clrscr();
+					cout<<"\n Enter name:";
+					gets(name);
+					cout<<"\nEnter phone:";
+					gets(phone);
+					cout<<"\nEnter user id:";
+					gets(userid);
+					cout<<"\n Enter account id:";
+					gets(acc_id);
+					cout<<"\n Enter password:";
+					cin>>password;
+					cout<<"\n Enter balance:";
+					cin>>balance;
+==============================================EXCEPTIONAL HANDLING 10=======================================================
+					/*
+					try{
+					if(strlen(name)>21 || strlen(phone)>10 || strlen(phone)<10 || strlen(userid)>21 || strlen(acc_id)>21 || password<0 || balance<0 )
+					throw myException("Exception Caught .Try Again!!!!!!!!!!!!!!!!!!!!!");
+					}
+					catch(...)   //CAUGHT ALL EXCEPTIONS .
+					{
+					cout<<e.message();
+					exit 0;
+					}
+					*/
+					Savings ss(password,acc_id,name,phone,balance,userid);
+					login.assigns(ss);
+==========================================================================================================================
+==========================================================================================================================

@@ -1,0 +1,151 @@
+====================================================Template Classes==============================================
+template<class at>
+class ATM
+{
+	protected:
+		at atm_number;
+		at atm_password;
+		char* accd;
+
+	public:
+		ATM(){}
+		ATM(at n,at p,char c[])
+		{
+			fflush(stdin);
+			atm_number=n;
+			atm_password=p;
+			strcpy(accd,c);
+		}
+		at getatm(){return atm_number;}
+		char* getatmid(){return accd;}
+		at getpass(){return atm_password;}
+	    ~ATM(){};
+};
+==============================================================================================================
+template<class ac>
+class Account
+{
+	protected:
+    	ac  password ;
+    	char  acc_id[21] ;
+	char name[21] ;
+	char phone[10] ;
+    	ac balance ;
+	char userid[21] ;
+    ATM *a; 				//FOR COMPOSITION RELATIONSHIP .
+public :
+	Account(){}
+	Account(int p,char aid[],char nm[],char ph[],float bl,char uid[])
+	{
+		fflush(stdin);
+		password=p;
+		strcpy(acc_id,aid);
+		strcpy(name,nm);
+		strcpy(phone,ph);
+		balance=bl;
+		strcpy(userid,uid);
+	}
+};
+==============================================================================================================
+template<class ac>
+class Savings :virtual public Account<ac>
+{
+
+	public:
+	Savings():Account<>(){}
+	char* getid(){return acc_id;}
+	Savings(<ac> p,char aid[],char nm[],char ph[],<ac> bl,char uid[]):Account<ac>(p,aid,nm,ph,bl,uid){}
+};
+==============================================================================================================
+template<class ac>
+class Current :virtual public Account<ac>
+{
+
+	public:
+	Current():Account<>(){}
+	char* getid(){return acc_id;}
+	Current(ac p,char aid[],char nm[],char ph[],ac bl,char uid[]):Account<ac>(p,aid,nm,ph,bl,uid){}
+};
+==============================================================================================================
+template<class ac>
+class Locker : virtual public Savings<ac> , virtual public Current<ac>
+{
+	protected :
+    	ac locker_num ;
+	char type[21] ;
+	ac rent ;
+	char date[10] ;
+	public :
+	Locker():Savings<>(),Current<>(){}
+	ac getlocknum(){return locker_num;}
+	
+};
+==============================================================================================================
+template<class ac>
+class LOAN : virtual public Savings<ac> , virtual public Current<ac>
+{
+	protected :
+	char loan_id[21] ;
+	float rate_interest;
+	int num_of_Installments;
+	int installments_paid;
+	ac principle ;
+	float amount_paid;
+	ac fixed_amt;
+	char date[10] ;
+	public :
+	LOAN():Savings<>(),Current()<>{}
+	
+};
+==============================================================================================================
+template<class ac>
+class CAR :virtual public LOAN
+{
+	protected :
+	float salary ;
+	public :
+	CAR<>():LOAN(){}
+	};
+==============================================================================================================
+template<class ac>
+class EDUCATION :virtual public LOAN<ac>
+{
+	protected :
+    	ac twelth_marks ;
+	public :
+	EDUCATION():LOAN<>(){}
+	};
+template<class ac>
+==============================================================================================================
+class DD : virtual public Savings<ac> , virtual public Current<ac>
+{
+	protected :
+	ac date[10] ;
+	ac from[21] ;
+	ac to[21] ;
+	public :
+	DD():Savings<>(),Current<>(){}
+};
+==============================================================================================================
+template<class at>
+class ATM_transaction : public ATM<at>
+{
+	public :
+	ATM_transaction():ATM<>(){}
+	ATM_transaction(at atmno,at pin,char acc_id[]):ATM<at>(atmno,pin,acc_id){}
+	
+};
+==============================================================================================================
+template<class lg>
+class LOGIN : 	virtual public Savings<lg> , virtual public Current<lg> , virtual public ATM_transaction<lg> , virtual public LOAN<lg>, public Locker<lg> , virtual public DD<lg>
+{}
+======================================================TemplateClass Calling========================================
+
+					Savings<int> ss(password,acc_id,name,phone,balance,userid);
+					
+					Current<int> cc(password,acc_id,name,phone,balance,userid);
+					
+					ATM_transaction<int> at(atmno,pin,acc_id);
+					LOGIN<> login;
+==============================================================================================================
+==============================================================================================================
